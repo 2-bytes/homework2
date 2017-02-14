@@ -22,16 +22,25 @@ public class Shape {
     }
 
     public Shape add(Shape shape){
-        return new Shape(this.area+area);
+        return new Shape(this.area+shape.area);
+    }
+    
+    public double getArea(){
+        return this.area;
+    }
+    
+    protected void setArea(double area){
+        this.area=area;
     }
 }
 
 class Ring extends Shape{
 
-    private double radius;
+    private final double radius;
 
-    public Ring(double radius){
-
+    protected Ring(double radius){
+        super(Math.PI*radius*radius);
+        this.radius = radius;
     }
 
     public double getRadius(){
@@ -40,13 +49,86 @@ class Ring extends Shape{
 }
 
 class Triangle extends Shape{
+    
+    private final double sideA;
+    private final double sideB;
+    private final double sideC;
+    
+    protected Triangle(double sideA, double sideB, double sideC){
+        super(Math.sqrt((sideA+sideB+sideC)/2*
+                (sideB+sideC-sideA)/2*
+                (sideA+sideC-sideB)/2*
+                (sideA+sideB-sideC)/2));//sqrt(p(p-a)(p-b)(p-c))
+        this.sideA = sideA;
+        this.sideB = sideB;
+        this.sideC = sideC;
+    }
+    
+    public double getSideA() {
+        return sideA;
+    }
 
+    public double getSideB() {
+        return sideB;
+    }
+
+    public double getSideC() {
+        return sideC;
+    }
 }
 
-class Parallelogram extends Shape{
+class Parallelohramm extends Shape{
+    
+    private final double sideA;
+    private final double sideB;
+    
+    protected Parallelohramm(double sideA, double sideB, double angle){
+        super(sideA*sideB*Math.sin(angle));
+        this.sideA=sideA;
+        this.sideB=sideB;
+    }
 
+    public double getSideA() {
+        return sideA;
+    }
+
+    public double getSideB() {
+        return sideB;
+    }
+    
 }
 
-class Trapecium extends Shape{
+class Trapezium extends Shape{
+    
+    private final double top;
+    private final double bottom;
+    private final double leftSide;
+    private final double rightSide;
+    
+    protected Trapezium(double top, double bottom, double leftSide, double rightSide){
+        this.top = top;
+        this.bottom = bottom;
+        this.leftSide = leftSide;
+        this.rightSide = rightSide;
+        double area = (top+bottom)/2*Math.sqrt(leftSide*leftSide
+                -Math.pow(((leftSide*leftSide-rightSide*rightSide)/(bottom-top))+bottom-top, 2)/4);
+        super.setArea(area);
+    }
 
+    public double getTop() {
+        return top;
+    }
+
+    public double getBottom() {
+        return bottom;
+    }
+
+    public double getLeftSide() {
+        return leftSide;
+    }
+
+    public double getRightSide() {
+        return rightSide;
+    }
+    
 }
